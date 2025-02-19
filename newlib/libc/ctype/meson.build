@@ -33,6 +33,7 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 srcs_ctype = [
+    'caseconv.c',
     'ctype_.c',
     'ctype_table.c',
     'ctype_wide.c',
@@ -105,14 +106,6 @@ srcs_ctype = [
     'wctrans_l.c',
     'wctype.c',
     'wctype_l.c',
-]
-hdrs_ctype = [
-    'categories.h',
-    'ctype_cp.h',
-    'ctype_.h',
-    'ctype_iso.h',
-    'jp2uc.h',
-    'local.h',
 ]
 
 srcs_ctype_use = []

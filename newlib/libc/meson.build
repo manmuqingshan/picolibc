@@ -33,9 +33,9 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-libdirs = ['argz', 'ctype', 'errno', 'iconv', 'misc',
-	   'posix', 'search', 'signal', 'ssp', 'stdlib',
-	   'string', 'time', 'xdr', 'locale', 'uchar']
+libdirs = ['argz', 'ctype', 'errno', 'iconv', 'locale',
+           'misc', 'posix', 'search', 'signal', 'ssp',
+           'stdlib', 'string', 'time', 'xdr', 'uchar']
 
 if enable_picolib
   libdirs += 'picolib'
@@ -44,7 +44,7 @@ endif
 if tinystdio
   libdirs += 'tinystdio'
 else
-  libdirs += ['stdio', 'reent']
+  libdirs += ['stdio']
   if newlib_stdio64
     libdirs += 'stdio64'
   endif

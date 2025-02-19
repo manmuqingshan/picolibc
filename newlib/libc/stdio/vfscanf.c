@@ -407,7 +407,7 @@ _SVFSCANF (
 #define _WANT_IO_POSIX_EXTENSIONS
 #endif
 #ifdef _WANT_IO_POSIX_EXTENSIONS
-#ifdef __GNUC__
+#ifdef __GNUCLIKE_PRAGMA_DIAGNOSTIC
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wanalyzer-null-dereference"
@@ -1539,7 +1539,7 @@ _SVFSCANF (
 	  unsigned width_left = 0;
 	  char nancount = 0;
 	  char infcount = 0;
-	  const char *decpt = localeconv ()->decimal_point;
+	  const char *decpt = DECIMAL_POINT;
 #ifdef _MB_CAPABLE
 	  int decptpos = 0;
 #endif

@@ -190,6 +190,10 @@
 #define	__GNUCLIKE___TYPEOF 1
 #define	__GNUCLIKE___SECTION 1
 
+#if __GNUC_PREREQ (4, 2) || defined(__clang__)
+#define __GNUCLIKE_PRAGMA_DIAGNOSTIC 1
+#endif
+
 #define	__GNUCLIKE_CTOR_SECTION_HANDLING 1
 
 #define	__GNUCLIKE_BUILTIN_CONSTANT_P 1
@@ -333,6 +337,8 @@
 
 #if __GNUC_PREREQ__(4,5) || defined(__clang__)
 #define __picolibc_deprecated(m) __attribute__((__deprecated__(m)))
+#elif __GNUC_PREREQ__(3,1)
+#define __picolibc_deprecated(m) __attribute__((__deprecated__))
 #else
 #define __picolibc_deprecated(m) _ATTRIBUTE(__deprecated__)
 #endif
@@ -518,10 +524,10 @@
 
 /*
  * Additionally, we allow to use `__restrict_arr' for declaring arrays as
- * non-overlapping per C99.  That's supported since gcc 3.1, but it's not
+ * non-overlapping per C99.  That's supported since gcc 4.3, but it's not
  * allowed in C++.
  */
-#if defined(__cplusplus) || !__GNUC_PREREQ__(3, 1)
+#if defined(__cplusplus) || !__GNUC_PREREQ__(4, 3)
 #define __restrict_arr
 #elif defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
 #define __restrict_arr       restrict

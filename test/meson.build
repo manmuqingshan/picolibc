@@ -43,6 +43,9 @@ plain_tests_common = ['regex', 'ungetc',
                       'test-sprintf-percent-n',
                       'test-ctype',
                       'test-uchar',
+                      'test-wctomb',
+                      'test-scmpu',
+                      'time-tests',
 	      ]
 
 math_tests_common = [
@@ -101,7 +104,6 @@ plain_tests = plain_tests_common
 
 plain_tests += math_tests + [
   'test-funopen',
-  'time-tests',
   'tls',  
 ]
 
@@ -152,7 +154,7 @@ foreach params : targets
 
   _c_args = target_c_args + get_variable('test_c_args' + target, test_c_args)
   _link_args = target_c_args + _lib_files + get_variable('test_link_args' + target, test_link_args)
-  _link_depends = get_variable('test_link_depends' + target, test_link_depends)
+  _link_depends = get_variable('test_link_depends' + target, test_link_depends) + _libs
   if have_cplusplus
     _cpp_args = target_c_args + get_variable('test_cpp_args_' + target, test_cpp_args)
   endif
@@ -165,9 +167,9 @@ foreach params : targets
 		  link_args: double_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'printff_scanff'
@@ -178,9 +180,9 @@ foreach params : targets
 		  link_args: float_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'printfl_scanfl'
@@ -191,9 +193,9 @@ foreach params : targets
 		  link_args: llong_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'printfi_scanfi'
@@ -204,9 +206,9 @@ foreach params : targets
 		  link_args: int_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'printfm_scanfm'
@@ -217,9 +219,9 @@ foreach params : targets
 		  link_args: min_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'printf-tests'
@@ -230,9 +232,9 @@ foreach params : targets
 		  link_args: double_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'printff-tests'
@@ -243,9 +245,9 @@ foreach params : targets
 		  link_args: float_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'printfi-tests'
@@ -256,9 +258,9 @@ foreach params : targets
 		  link_args: int_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'printfm-tests'
@@ -269,9 +271,9 @@ foreach params : targets
 		  link_args: min_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'time-sprintf'
@@ -282,9 +284,9 @@ foreach params : targets
 		  link_args: int_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'try-ilp32'
@@ -295,9 +297,9 @@ foreach params : targets
 		  link_args: _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'hosted-exit'
@@ -309,9 +311,9 @@ foreach params : targets
 		  link_args:  _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   test(t1_fail + target,
@@ -320,9 +322,9 @@ foreach params : targets
 		  link_args:  _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env,
        should_fail: true
       )
@@ -335,9 +337,9 @@ foreach params : targets
 		  link_args:  _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env,
        should_fail: true
       )
@@ -356,9 +358,9 @@ foreach params : targets
 		    link_args:  _link_args,
 		    objects: _objs_minimal,
 		    link_depends:  _link_depends,
-		    link_with: _libs,
 		    include_directories: inc),
          depends: bios_bin,
+         suite: 'test',
 	 env: test_env)
   endif
 
@@ -370,9 +372,9 @@ foreach params : targets
 		  link_args: _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'rounding-mode'
@@ -383,9 +385,9 @@ foreach params : targets
 		  link_args: _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env)
 
   t1 = 'test-except'
@@ -397,9 +399,9 @@ foreach params : targets
 		  link_args: double_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env,
        should_fail: true
       )
@@ -413,9 +415,9 @@ foreach params : targets
 		  link_args: double_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
+       suite: 'test',
        env: test_env,
        timeout: 90,
       )
@@ -429,13 +431,13 @@ foreach params : targets
 		           link_args: _link_args,
 		           objects: _objs,
 		           link_depends:  _link_depends,
-		           link_with: _libs,
 		           include_directories: inc)
 
     test(t1 + target + '-success',
          test_gets,
          depends: bios_bin,
          args: ['hi'],
+         suite: 'test',
          env: test_env,
          timeout: 90
         )
@@ -445,6 +447,7 @@ foreach params : targets
          test_gets,
          depends: bios_bin,
          args: ['this is a long string that should overflow the buffer'],
+         suite: 'test',
          env: test_env,
          timeout: 90,
          should_fail: true
@@ -466,9 +469,9 @@ foreach params : targets
 		    link_args: _link_args,
 		    objects: _objs,
 		    link_depends:  _link_depends,
-		    link_with: _libs,
 		    include_directories: inc),
 	 depends: bios_bin,
+         suite: 'test',
 	 env: test_env,
 	 should_fail: sanitize_trap_on_error
 	)
@@ -482,11 +485,11 @@ foreach params : targets
 		  link_args: llong_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
        timeout: 120,
        priority: -1,
+       suite: 'test',
        env: test_env)
 
   t1 = 'test-long-long'
@@ -497,11 +500,11 @@ foreach params : targets
 		  link_args: double_printf_link_args + _link_args,
 		  objects: _objs,
 		  link_depends:  _link_depends,
-		  link_with: _libs,
 		  include_directories: inc),
        depends: bios_bin,
        timeout: 120,
        priority: -1,
+       suite: 'test',
        env: test_env)
 
   foreach t1 : plain_tests
@@ -514,10 +517,10 @@ foreach params : targets
 		    link_args: double_printf_link_args + _link_args,
 		    objects: _objs,
 		    link_depends:  _link_depends,
-		    link_with: _libs,
 		    include_directories: inc),
          depends: bios_bin,
 	 timeout: 60,
+         suite: 'test',
 	 env: test_env)
   endforeach
 
@@ -530,8 +533,10 @@ foreach params : targets
 		    link_args: _cpp_args + _link_args,
 		    objects: _objs,
 		    link_depends:  _link_depends,
-		    link_with: _libs,
-                    include_directories: inc))
+                    include_directories: inc),
+         depends: bios_bin,
+         suite: 'test',
+         env: test_env)
   endif
 endforeach
 
@@ -586,6 +591,72 @@ endif
 
 if enable_native_tests
 
+  localedef = find_program('localedef', required: false)
+
+  ctype_c_args = []
+
+  locales=[]
+  # need meson 0.57 so we can use 'env' in custom_target
+  if localedef.found() and meson.version().version_compare('>=0.57')
+    if mb_capable
+      locale = 'fr_FR.UTF-8'
+      locales += [custom_target(locale, output: locale,
+                                command: [localedef, '--no-warnings=ascii',
+                                          '-f', 'UTF-8', '-i', 'fr_FR', '.' / '@OUTPUT@'])]
+      locale = 'C.UTF-8'
+      locales += [custom_target(locale, output: locale,
+                                command: [localedef, '--no-warnings=ascii',
+                                          '-f', 'UTF-8', '-i', 'C', '.' / '@OUTPUT@'])]
+      ctype_c_args += ['-DHAVE_UTF_CHARSETS']
+    endif
+    if mb_extended_charsets
+      # CP720 doesn't have any Linux support.
+      # JIS doesn't make any sense to me.
+      # CP1255 and CP1258 seem to be broken in Linux
+      foreach ctype : ['ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
+                       'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8',
+                       'ISO-8859-9', 'ISO-8859-10', 'ISO-8859-11', 'ISO-8859-13',
+                       'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
+
+                       'GEORGIAN-PS', 'PT154', 'KOI8-T', 'CP437', 'CP737', 'CP775',
+                       'CP850', 'CP852', 'CP855', 'CP857', 'CP858', 'CP862', 'CP866',
+                       'CP874', 'CP1125', 'CP1250', 'CP1251', 'CP1252', 'CP1253',
+                       'CP1254', 'CP1256', 'CP1257', 'KOI8-R', 'KOI8-U',
+
+                       'SHIFT-JIS', 'EUC-JP']
+        locale = 'C.' + ctype
+        if ctype == 'SHIFT-JIS'
+          ctype = 'SHIFT_JIS'
+        elif ctype == 'CP437'
+          ctype = 'IBM437'
+        elif ctype == 'CP850'
+          ctype = 'IBM850'
+        elif ctype == 'CP852'
+          ctype = 'IBM852'
+        elif ctype == 'CP855'
+          ctype = 'IBM855'
+        elif ctype == 'CP857'
+          ctype = 'IBM857'
+        elif ctype == 'CP858'
+          ctype = 'IBM858'
+        elif ctype == 'CP862'
+          ctype = 'IBM862'
+        elif ctype == 'CP866'
+          ctype = 'IBM866'
+        elif ctype == 'CP874'
+          ctype = 'IBM874'
+        endif
+        locales += [custom_target(locale, output: locale,
+                                  command: [localedef, '--no-warnings=ascii',
+                                            '-f', ctype, '-i', 'C', '.' / '@OUTPUT@'])]
+      endforeach
+      ctype_c_args += ['-DHAVE_ISO_CHARSETS',
+                       '-DHAVE_WINDOWS_CHARSETS',
+                       '-DHAVE_JIS_CHARSETS'
+                      ]
+    endif
+  endif
+
   if have_cplusplus
     test('test-cplusplus-native',
          executable('test-cplusplus-native', 'test-cplusplus.cpp',
@@ -600,36 +671,51 @@ if enable_native_tests
 
     test(t1 + target,
 	 executable(t1 + '-native', t1_src,
-		    c_args: native_c_args,
-		    link_args: native_c_args))
+		    c_args: native_c_args + ctype_c_args,
+		    link_args: native_c_args),
+         env: ['LOCPATH=' + meson.current_build_dir()])
   endforeach
 
-  if newlib_mb
-    diff = find_program('diff', required: false)
+  diff = find_program('diff', required: false)
 
-    if diff.found()
-      wctype = executable('test-wctype', 'test-wctype.c',
-                          c_args: _c_args,
-                          link_args: _link_args,
-                          objects: _objs,
-                          link_depends: _link_depends,
-                          link_with: _libs,
-                          include_directories: inc)
+  if diff.found()
+    diff_tests = ['test-wctype', 'test-encode', 'test-wcase']
 
-      wctype_native = executable('test-wctype-native', 'test-wctype.c',
-                                 c_args: native_c_args,
-                                 link_args: native_c_args)
+    foreach t : diff_tests
+      src = t + '.c'
+      n = t + '-native'
+      o = t + '-out'
+      no = n + '-out'
 
-      wctype_out = custom_target ('wctype-out', output: 'wctype-out',
-                                  command: [wctype, '@OUTPUT@'])
+      test = t + '-compare'
 
-      wctype_native_out = custom_target ('wctype-native-out', output: 'wctype-native-out',
-                                         command: [wctype_native, '@OUTPUT@'])
+      e = executable(t, src, 
+                 c_args: _c_args + ctype_c_args,
+                 link_args: _link_args,
+                 objects: _objs,
+                 link_depends: _link_depends,
+                 include_directories: inc)
 
-      test('wctype-compare', diff, args: [wctype_out, wctype_native_out])
-    endif
+      out = custom_target (o, output: o,
+                           command: [e, '@OUTPUT@'])
+
+      ne = executable(n, src, 
+                      c_args: native_c_args + ctype_c_args,
+                      link_args: native_c_args)
+
+      if locales != [] and meson.version().version_compare('>=0.57')
+        native_out = custom_target (no, output: no,
+                                    depends: locales,
+                                    env: ['LOCPATH=' + meson.current_build_dir()],
+                                    command: [ne, '@OUTPUT@'])
+      else
+        native_out = custom_target (no, output: no,
+                                    command: [ne, '@OUTPUT@'])
+      endif
+
+      test(test, diff, args: ['-u', out, native_out])
+    endforeach
   endif
-       
 endif
 
 subdir('libc-testsuite')

@@ -1,10 +1,21 @@
 /* Copyright (c) 2016 Corinna Vinschen <corinna@vinschen.de> */
 #include <ctype.h>
+#include <wchar.h>
+#include "locale_private.h"
 
-# define DEFAULT_CTYPE_PTR	((char *) _ctype_)
+#ifdef _MB_EXTENDED_CHARSETS_NON_UNICODE
 
-void
-__set_ctype (struct __locale_t *loc, const char *charset);
+extern const char __ctype[locale_END - locale_EXTENDED_BASE][_CTYPE_OFFSET + 1 + 256];
+
+static inline const char *
+__get_ctype(enum locale_id id)
+{
+    if (id < locale_EXTENDED_BASE)
+        return _ctype_;
+    return __ctype[id - locale_EXTENDED_BASE] + _CTYPE_OFFSET;
+}
+
+#endif
 
 #define _CTYPE_DATA_0_127 \
 	_C,	_C,	_C,	_C,	_C,	_C,	_C,	_C, \

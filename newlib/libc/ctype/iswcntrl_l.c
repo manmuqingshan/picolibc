@@ -9,12 +9,11 @@ Modified (m) 2017 Thomas Wolff: revise Unicode and locale/wchar handling
 #include "local.h"
 
 int
-iswcntrl_l (wint_t c, struct __locale_t *locale)
+iswcntrl_l (wint_t c, locale_t locale)
 {
   (void) locale;
 #ifdef _MB_CAPABLE
-  c = _jp2uc_l (c, locale);
-  uint16_t cat = __ctype_table_lookup (c);
+  uint16_t cat = __ctype_table_lookup (c, locale);
   return cat & CLASS_cntrl;
 #else
   return c < 0x100 ? iscntrl (c) : 0;

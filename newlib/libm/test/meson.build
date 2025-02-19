@@ -157,6 +157,16 @@ foreach params : targets
   if target.strip('_') in skip_math_test
     continue
   endif
+  skip = false
+  foreach part : target.split('_')
+    if part != '' and part in skip_math_test
+      skip = true
+    endif
+  endforeach
+  if skip
+    continue
+  endif
+  
 
 
   _libs = [get_variable('lib_c' + target)]
@@ -199,6 +209,7 @@ foreach params : targets
 		    link_depends: _link_depends,
 		    include_directories: inc),
          depends: bios_bin,
+         suite: 'math',
          env: test_env)
   endforeach
 endforeach

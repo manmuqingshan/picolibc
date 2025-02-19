@@ -49,6 +49,12 @@
 
 _BEGIN_STD_C
 
+#if !((defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L) || \
+     (defined(__cplusplus) && __cplusplus >= 201402L))
+     //Provide this function for applications which use an earlier C standard before C11 and C++14
+     #define _PICOLIBC_USE_DEPRECATED_GETS
+#endif
+
 /*
  * This is an internal structure of the library that is subject to be
  * changed without warnings at any time.  Please do *never* reference
@@ -130,7 +136,7 @@ struct __file_ext {
 */
 #ifndef ___FILE_DECLARED
 typedef struct __file __FILE;
-# define __FILE_DECLARED
+# define ___FILE_DECLARED
 #endif
 
 #ifndef _FILE_DECLARED
@@ -203,7 +209,9 @@ int	fflush(FILE *stream);
 
 #ifdef _HAVE_FORMAT_ATTRIBUTE
 #ifdef PICOLIBC_FLOAT_PRINTF_SCANF
+#ifdef __GNUCLIKE_PRAGMA_DIAGNOSTIC
 #pragma GCC diagnostic ignored "-Wformat"
+#endif
 #define __FORMAT_ATTRIBUTE__(__a, __s, __f) __attribute__((__format__ (__a, __s, 0)))
 #else
 #define __FORMAT_ATTRIBUTE__(__a, __s, __f) __attribute__((__format__ (__a, __s, __f)))
@@ -254,7 +262,9 @@ int	sscanf(const char *__buf, const char *__fmt, ...) __FORMAT_ATTRIBUTE__(scanf
 int	vsscanf(const char *__buf, const char *__fmt, __gnuc_va_list ap) __FORMAT_ATTRIBUTE__(scanf, 2, 0);
 
 char	*fgets(char *__str, int __size, FILE *__stream);
-char	*gets(char *__str);
+#ifdef _PICOLIBC_USE_DEPRECATED_GETS
+     char *gets(char *str);
+#endif
 size_t	fread(void *__ptr, size_t __size, size_t __nmemb,
 		      FILE *__stream);
 

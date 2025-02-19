@@ -49,7 +49,7 @@ main(void)
 #ifdef __thumb__
     __asm__(".inst.n 0xde00");
 #else
-    __asm__(".word 0xe7f000f0");
+    __asm__(".inst 0xe7f000f0");
 #endif
 
 #elif defined(__riscv)
@@ -59,6 +59,10 @@ main(void)
 #elif defined(__aarch64__)
 
     __asm__(".word 0x00000000");
+
+#elif defined(__RX__)
+
+    __asm__(".word 0xffffffff");
 
 #else
 
