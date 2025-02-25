@@ -38,7 +38,7 @@
 size_t mbrtoc32(char32_t * __restrict pc32, const char * __restrict s, size_t n,
                 _mbstate_t * __restrict ps)
 {
-    static NEWLIB_THREAD_LOCAL mbstate_t local_state;
+    static mbstate_t local_state;
 
     if (ps == NULL)
         ps = &local_state;
@@ -121,7 +121,8 @@ size_t mbrtoc32(char32_t * __restrict pc32, const char * __restrict s, size_t n,
         return (size_t) -1;
     }
 
-    *pc32 = c32;
+    /* Ignore parameter pc32 if s is a null pointer */
+    if(s != NULL) *pc32 = c32;
 
     return ret;
 

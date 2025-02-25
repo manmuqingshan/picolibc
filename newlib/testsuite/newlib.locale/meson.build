@@ -37,7 +37,7 @@ tests = []
 
 mb_tests = ['UTF-8']
 
-if newlib_mb
+if mb_capable
   tests += mb_tests
 endif
 
@@ -76,6 +76,6 @@ foreach params : targets
 		    link_depends:  _link_depends,
 		    include_directories: inc),
 	 depends: bios_bin,
-	 env: test_env)
+	 suite: 'newlib.iconv', env: test_env)
   endforeach
 endforeach

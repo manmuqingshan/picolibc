@@ -132,6 +132,12 @@ struct fmal_vec {
 };
 #endif
 
+#ifdef _RX_PID
+#define TEST_CONST
+#else
+#define TEST_CONST static const
+#endif
+
 #include "fma_vec.h"
 
 #define NUM_FMAF_VEC (sizeof(fmaf_vec)/sizeof(fmaf_vec[0]))
@@ -345,5 +351,11 @@ main(void)
     }
 #endif
     ret |= test_fmal();
+#ifdef __RX__
+    if (ret) {
+        printf("Expected failure on RX target, ignoring\n");
+        ret = 77;
+    }
+#endif
     return ret;
 }

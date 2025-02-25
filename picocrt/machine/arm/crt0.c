@@ -215,12 +215,12 @@ extern char __stack[];
 static __noinline __attribute__((target("arm"))) void
 _set_stacks(void)
 {
-#ifdef __GNUC__
+#ifdef __GNUCLIKE_PRAGMA_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Warray-bounds"
 #endif /* __GNUC__ */
         SET_SPS();
-#ifdef __GNUC__
+#ifdef __GNUCLIKE_PRAGMA_DIAGNOSTIC
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ */
 }
@@ -231,6 +231,8 @@ _set_stacks(void)
  * initialized, so start is a naked function which sets up the stack
  * and then branches here.
  */
+
+extern void __vector_table(void);
 
 static _Noreturn __attribute__((used)) __section(".init") void
 _cstart(void)
@@ -253,6 +255,12 @@ _cstart(void)
 #endif
 	/* Enable FPU */
 	__asm__("vmsr fpexc, %0" : : "r" (0x40000000));
+#endif
+
+/* Set up exception table base address (register VBAR_ELx).
+   Architectures earlier than v7 have the base address fixed. */
+#if __ARM_ARCH >= 7
+    __asm__("mcr p15, #0, %0, c12, c0, 0" : : "r"(__vector_table) :);
 #endif
 
 #ifdef _PICOCRT_ENABLE_MMU
@@ -321,7 +329,7 @@ _start(void)
 	/* Generate a reference to __vector_table so we get one loaded */
 	__asm__(".equ __my_vector_table, __vector_table");
 
-#ifdef __GNUC__
+#ifdef __GNUCLIKE_PRAGMA_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Warray-bounds"
 #endif /* __GNUC__ */
@@ -331,7 +339,7 @@ _start(void)
         SET_SPS();
 #endif /* __ARM_ARCH_ISA_THUMB != 1 */
 
-#ifdef __GNUC__
+#ifdef __GNUCLIKE_PRAGMA_DIAGNOSTIC
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ */
 

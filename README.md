@@ -10,6 +10,7 @@ Build status:
 
  * ![Linux](https://github.com/picolibc/picolibc/workflows/Linux/badge.svg?branch=main)
  * ![Zephyr](https://github.com/picolibc/picolibc/workflows/Zephyr/badge.svg?branch=main)
+ * ![Coreboot](https://github.com/picolibc/picolibc/workflows/Coreboot/badge.svg?branch=main)
  * ![Mac OS X](https://github.com/picolibc/picolibc/workflows/Mac%20OS%20X/badge.svg)
 
 ## License
@@ -145,7 +146,7 @@ use Picolibc:
 
 ## Releases
 
-### Picolibc release 1.8.next
+### Picolibc release 1.8.9
 
  * Use common clang/gcc feature detection macros on arm.
 
@@ -203,6 +204,24 @@ use Picolibc:
  * Add OpenRisc support, including testing. Thanks to Joel Holdsworth.
 
  * Add LatticMico32 support, including testing. Thanks to Jiaxun Yang.
+
+ * Add MIPS semihosting support. Thanks to Jiaxun Yang.
+
+ * Add older GCC compiler support, including versions < 4.4. Thanks to
+   Joel Holdsworth.
+
+ * Add coreboot configurations and tests. Thanks to Jeremy Bettis and
+   Jon Murphy.
+
+ * Fix numerous charset conversion errors for non-Unicode locales.
+
+ * Make sure malloc return is aligned by using max_align_t. Thanks to
+   Alex Richardson.
+
+ * Replace iconv and locale implementations with smaller code offering
+   the same locale functionality as before while the iconv code shares
+   the same charset support as the locale code instead of having a
+   completely separate implementation.
 
 ### Picolibc release 1.8.8
 
